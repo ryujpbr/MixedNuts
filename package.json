@@ -1,0 +1,34 @@
+{
+  "name": "mixednuts",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "apps/*"],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "dev:server": "AUTH_MODE=dev vite-node apps/server/src/index.ts",
+    "dev:web": "vite --config apps/web/vite.config.ts",
+    "build": "npm run build:web && npm run build:server",
+    "build:web": "vite build --config apps/web/vite.config.ts",
+    "build:server": "esbuild apps/server/src/index.ts --bundle --platform=node --format=esm --target=node20 --outfile=dist/server.js --alias:@mixednuts/engine=./packages/engine/src/index.ts --alias:@mixednuts/protocol=./packages/protocol/src/index.ts --external:ws --external:firebase-admin",
+    "start": "node dist/server.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@types/ws": "^8.5.12",
+    "@vitejs/plugin-react": "^4.3.0",
+    "typescript": "^5.6.0",
+    "vite": "^5.4.0",
+    "vitest": "^2.1.0",
+    "esbuild": "^0.24.0"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "ws": "^8.18.0",
+    "firebase-admin": "^13.0.0"
+  },
+  "engines": { "node": ">=20" }
+}
